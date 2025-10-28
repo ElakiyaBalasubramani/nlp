@@ -1,0 +1,38 @@
+import math, re
+from collections import Counter
+
+# Dataset
+docs = [
+    "The sun is shining brightly today.",
+    "A bright sun brings happiness.",
+    "The cat is sleeping on the mat.",
+     "The sun is shining brightly today."
+]
+
+# Preprocessing
+def preprocess(text):
+    return re.findall(r'\b\w+\b', text.lower())
+
+processed = [preprocess(d) for d in docs]
+   
+# TF
+def tf(doc):
+    c = Counter(doc)
+    return {w: c[w] / len(doc) for w in c}
+
+# IDF
+def idf(docs):
+    N = len(docs)
+    all_words = {w for doc in docs for w in doc}
+    return {w: math.log(N / (1 + sum(w in d for d in docs))) for w in all_words}
+
+# TF-IDF
+def tfidf(docs):
+    idf_scores = idf(docs)
+    return [{w: tf(doc)[w] * idf_scores[w] for w in doc} for doc in docs]
+
+# Display
+for i, scores in enumerate(tfidf(processed), 1):
+    print(f"\nDoc {i} TF-IDF:")
+    for w, s in sorted(scores.items(), key=lambda x: x[1], reverse=True):
+        print(f"  {w:10s}: {s:.4f}")
