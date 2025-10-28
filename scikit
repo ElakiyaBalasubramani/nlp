@@ -1,0 +1,42 @@
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, classification_report
+
+# Dataset
+docs = [
+    "This movie was fantastic, I loved it!",
+    "The acting was terrible and the plot was boring.",
+    "An amazing and inspiring film.",
+    "I would not recommend this movie to anyone.",
+    "The best film I have seen all year.",
+    "A complete waste of time and money.",
+    "Brilliant screenplay and beautiful cinematography.",
+    "The storyline was predictable and dull.",
+    "Absolutely loved the performance.",
+    "It was a huge disappointment."
+]
+labels = np.array([1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(docs, labels, test_size=0.3, random_state=42)
+
+# TF-IDF + Naive Bayes
+vec = TfidfVectorizer()
+model = MultinomialNB()
+model.fit(vec.fit_transform(X_train), y_train)
+
+# Evaluation
+y_pred = model.predict(vec.transform(X_test))
+print(f"Accuracy: {accuracy_score(y_test, y_pred):.2f}")
+print(classification_report(y_test, y_pred, target_names=["Negative", "Positive"]))
+
+# Test on new sentences
+new = [
+    "The story was great and the characters were well-developed.",
+    "It was a really bad experience.",
+    "I love this beautiful sunny day and the amazing people around me.",
+    "I hate when it rains all day and everything feels gloomy and sad."
+]
+print("Predictions:", model.predict(vec.transform(new)))
