@@ -16,3 +16,13 @@ lemmas=[token.lemma_ for token in doc]
 lemmas
 poses = [token.pos_ for token in doc] 
 poses
+doc=nlp("""Born in Ranchi, Dhoni made his first class debut for Bihar in 1999. 
+He made his debut for the Indian cricket team on 23 December 2004 in an ODI against Bangladesh and played his first test a year later against Sri Lanka 56.""") 
+for token in doc.ents:
+    print(token.text,token.label_)
+from spacy import displacy
+displacy.render(doc,style='ent',jupyter=True)
+doc=nlp("""orn in Ranchi, Dhoni made his first class debut for Bihar in 1999. He made his debut for the Indian cricket team on 23 December 2004 in an ODI against Bangladesh and played his first test a year later against Sri Lanka.""")
+
+displacy.render(doc,style='dep',jupyter=True)
+
