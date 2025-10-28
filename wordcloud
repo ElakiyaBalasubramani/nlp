@@ -1,0 +1,16 @@
+!pip install wordcloud
+import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+import numpy as np
+from wordcloud import WordCloud
+text = """
+Alice was beginning to get very tired of sitting by her sister on the bank,
+and of having nothing to do: once or twice she had peeped into the book her sister was reading,
+but it had no pictures or conversations in it, ‘and what is the use of a book,’ thought Alice ‘without pictures or conversation?’
+"""
+plt.figure(figsize=(8,8))
+wc = WordCloud(background_color='lightgray',colormap='rainbow').generate(text)
+plt.imshow(wc, interpolation='bilinear')
+plt.axis("off")
+plt.show()
