@@ -1,0 +1,50 @@
+!pip install nltk
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer, SnowballStemmer, LancasterStemmer, RegexpStemmer, WordNetLemmatizer
+
+# Download required resources once
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('punkt_tab') # Download the missing resource
+
+# Sample text
+rhymes = """Twinkle, twinkle, little star,
+How I wonder what you are!
+Up above the world so high,
+Like a diamond in the sky.
+"""
+tokens = word_tokenize(rhymes)
+tokens
+
+
+# Tokenize
+tokens = word_tokenize(rhymes)
+print("Original tokens:", tokens)
+
+# Initialize stemmers and lemmatizer
+porter = PorterStemmer()
+snowball = SnowballStemmer('english')
+lancaster = LancasterStemmer()
+regex_stemmer = RegexpStemmer('ing$|s$|e$', min=3)
+lemmatizer = WordNetLemmatizer()
+
+# Apply all
+porter_stems = [porter.stem(t) for t in tokens]
+snowball_stems = [snowball.stem(t) for t in tokens]
+lancaster_stems = [lancaster.stem(t) for t in tokens]
+regex_stems = [regex_stemmer.stem(t) for t in tokens]
+lemmas = [lemmatizer.lemmatize(t) for t in tokens]
+
+# Display results
+print("\nPorter:", porter_stems)
+print("Snowball:", snowball_stems)
+print("Lancaster:", lancaster_stems)
+print("Regex:", regex_stems)
+print("Lemmatized:", lemmas)
+
+lemmatizer = WordNetLemmatizer()
+
+simple_lemmas = [lemmatizer.lemmatize(word) for word in tokens]
+simple_lemmas
